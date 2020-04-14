@@ -1,12 +1,17 @@
 import requests
-from bs4 import BeautifulSoup
+import time
+import httplib2
+from bs4 import BeautifulSoup, SoupStrainer
+
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from cucco import Cucco
 import seaborn as sns
 from collections import Counter
 import matplotlib.pyplot as plt
+import pandas as pd
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 # goal:get headline of web page
 # inputs: url
@@ -47,14 +52,39 @@ def create_corpus_by_url(url_list):
         sentence_list = get_page_sentences(url)
         for sentence in sentence_list:
             corpus.append(sentence)
-        # TODO: Save into file and remove the print part
     return corpus
 
+# goal: create dataframe (df) for analysis
+# inputs: urls_list,
+# return: d
+def create_dataframe(urls_list):
+    df_urls, df_newspaper, df_headlines, df_sentences_list, df_dates = ([] for i in range (5))
+    # collect data for each article
+    for url in urls_list:
+        df_urls.append(url)
+        df_newspaper.append('nothing')
+        df_headlines.append(get_page_headline(url))
+        df_sentences_list.append(get_page_sentences(url))
+        df_dates.append('nothing')
+
+    # intialise data of lists
+    data = {
+        'url': df_urls,
+        'newspaper': df_newspaper,
+        'headline': df_headlines,
+        'sentences_list': df_sentences_list,
+        'date': df_dates
+    }
+
+    # Create DataFrame
+    df = pd.DataFrame(data)
+    df.to_csv(r'export_data.csv', index=False, encoding='utf-8-sig')
+    return df
 
 # goal: search for related words in specific (keyword) sentences
 # inputs: sentence_list, keyword_list
-# return:  list of  words
-def search_keyword_related_words (sentence_list, keyword_list):
+# return:  list of related words
+def search_related_words (sentence_list, keyword_list):
     token_sentences, matched_sentences, related_words_list = ([] for i in range(3))
     new_stopwords = set(stopwords.words('spanish')) - {'ella', 'ellas', 'una', 'unas', 'él'}
     quotations = ['“', '”', 'así', 'hace', 'Por']
@@ -76,6 +106,11 @@ def search_keyword_related_words (sentence_list, keyword_list):
                 related_words_list.append(word)
     return related_words_list
 
+# goal: todo: search for keywords
+# inputs: sentence_list, keyword_list
+# return:  list of related words
+def search_keywords(sentence_list, keyword_list):
+    return 0
 # goal: show the frequency
 # inputs:
 # return:
@@ -89,29 +124,58 @@ def show_word_frequency (word_list, title):
     sns.barplot(x=y, y=x, color='cyan').set_title(title)
     plt.show()
 
-# goal: generate url lists based on
+
+# goal: todo: generate urls selenium by keywords_topic
+# inputs: keyword_topic
+# return: map list (keyword, url)
+def generate_urls_google ():
+    # import parameters / dataframes
+    # df_newspaper_param = pd.read_csv('parameters - newspapers_list.csv')
+    # df_keywords_list = [] pd.read_csv('')
+    # df = pd.read_excel(r'Path where the Excel file is stored\File name.xlsx', sheet_name='your Excel sheet name')
+
+    # inputs
+    # newspapers_urls_list = df_newspaper_param['url']
+    # female_keywords_list = df_newspaper_param['female']
+    keywords_list = ['Mexico mujer', 'mujer inmigrante']
+    newspapers_urls_list = ['https://sintesis.com.mx', 'https://heraldodepuebla.com']
+
+    #outputs
+    urls_list = []
+
+    # actions:
+    driver = webdriver.Chrome()
+    driver.get('http://www.google.com/')
+    for keyword in keywords_list:
+        for newspaper_url in newspapers_urls_list:
+            element_searched = 'site:'+newspaper_url+' '+keyword+' after:2017'
+            search_box = driver.find_element_by_name('q')
+            search_box.clear()
+            search_box.send_keys(element_searched)
+            search_box.submit()
+            print(element_searched)
+
+            #GET LINKS
+            # soup = BeautifulSoup(requests.get(driver.current_url).text, "lxml")
+            # http = httplib2.Http()
+            # status, response = http.request(driver.current_url)
+            # for link in BeautifulSoup(response, parse_only=SoupStrainer('a')):
+            #     if link.has_attr('href') and newspaper_url in link:
+            #         urls_list.append(link.get('href'))
+            # items = driver.find_elements_by_tag_name('a')
+            # items_text = items.text
+            # print(items_text)
+            # for item in items:
+            #     link = item.get_attribute('href')
+            #     print(link)
+            #     if newspaper_url in link:
+            #         urls_list.append(link)
+    print(urls_list)
+    driver.quit()
+    return urls_list
+
+# goal: todo: get_parameters_list
 # inputs: keyword_list
 # return: url_list
-def generate_urls_google ():
-    # parameters
-    keyword_list = ["Mexico mujer", "Mexico migrant"]
-    google_search_url = "https://www.google.com/search?q="
-
-    # launch webdriver
-    driver = webdriver.Firefox()
-    driver.maximize_window()
-
-    # get url_list
-    url_list = []
-    for i, keyword in enumerate(keyword_list):
-        driver.get(google_search_url + keyword_list(i))
-        soup = BeautifulSoup(requests.get(driver.current_url).text, "lxml")
-        url_lists_temp = soup.find_all('a')
-        for url in url_lists_temp:
-            url_list.append(url.get_text())
-
-    print(url_lists)
-
-    #driver.quit()
-    return url_list
-#test
+def get_parameters_list (parameter_name):
+    return 0
