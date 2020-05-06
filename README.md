@@ -9,7 +9,22 @@ I have three hypotheses:
 - Female immigrants are characterized as paassive, gendered, racialized victims, despite their diverse and dynamic roles. 
 - These characterizations are more or less nuanced depending on the origins of the women, her location, and the stage in the migratory process. 
 
+## Results for "Keyword Searching" (As of 5/6/20)
 
+*PACKAGES USED:* 
+csv, nltk, collections, glob, os, seaborn, matplotlib
+
+*INPUT:*
+
+1) Import the functions necessary from the [All_Functions](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/All_Functions.py) file
+
+2) Import 85 urls from 4 csv files. The urls were collected by searching the words 'migrante', 'migrantes', 'inmigrantes', and 'inmigrante' in the Mexican newspapers Sintesis, Sexenio,	Publimetro,	Diaro Cambio, and	El Universal, and taking the top 5 results for each search. 
+
+*OUTPUT:*
+
+1) A count of how many times female-gendered and male-gendered words appear in the articles
+
+2) A barplot of the most frequent gendered keywords and how often they appeared in the articles
 
 ## Mock Results for "Keyword Searching"
 
