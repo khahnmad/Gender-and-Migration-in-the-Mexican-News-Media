@@ -9,7 +9,8 @@ I have three hypotheses:
 - Female immigrants are characterized as paassive, gendered, racialized victims, despite their diverse and dynamic roles. 
 - These characterizations are more or less nuanced depending on the origins of the women, her location, and the stage in the migratory process. 
 
-## Results for "Keyword Searching" (As of 5/6/20)
+## Results for "Count Gender Frequency" (As of 5/6/20)
+[link to code](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/Count%20Gender%20Frequency.py)
 
 *PACKAGES USED:* 
 csv, nltk, collections, glob, os, seaborn, matplotlib
