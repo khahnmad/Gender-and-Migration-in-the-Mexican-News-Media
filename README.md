@@ -24,7 +24,7 @@ csv, nltk, collections, glob, os, seaborn, matplotlib
 
 1) A count of how many times female-gendered and male-gendered words appear in the articles
 
-2) A barplot of the most frequent gendered keywords and how often they appeared in the articles
+2) A [barplot](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/MostCommonKeywords.png) of the most frequent gendered keywords and how often they appeared in the articles
 
 ## Mock Results for "Keyword Searching"
 
