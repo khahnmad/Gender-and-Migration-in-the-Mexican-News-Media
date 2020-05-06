@@ -37,7 +37,7 @@ while '' in columnsList: # remove empty strings
     columnsList.remove('')
 urlsList = []
 for elt in columnsList: # remove content that is not a url
-    if elt.startswith('http'):
+    if elt.startswith('http') and elt not in urlsList:
         urlsList.append(elt)
 print('There are', len(urlsList), 'urls in Urls List')
 
