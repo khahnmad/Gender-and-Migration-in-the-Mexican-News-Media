@@ -1,13 +1,23 @@
+# to do
+# get special characters fixed: right now quotations and accent marks are not being cleaned correctly
+
+
 # Imports
 import requests
 import time
 # import httplib2
 from bs4 import BeautifulSoup, SoupStrainer
-
+import csv
+from nltk.corpus import stopwords
+from collections import Counter
+import glob
+import os
+from nltk.util import ngrams
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from cucco import Cucco
 import seaborn as sns
+import collections
 from collections import Counter
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -15,7 +25,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # Variables / Parameters
-male_keywords = ['hombre', 'padre', 'niño', 'niños', 'esposo', 'hombres', 'padres', 'esposos', 'masculina', 'masculino']
+male_keywords = ['hombre', 'padre', 'niño', 'niños', 'esposo', 'hombres', 'padres', 'esposos', 'masculina', 'masculino', 'marido']
 female_keywords = ['mujer', 'niñas', 'niña', 'madre', 'mujeres', 'esposa', 'esposas', 'madres', 'femenino', 'femenina']
 other_gender_keywords = ['género', 'adolescente', 'adulta']
 M_migrant_keywords = ['hombre inmigrante', 'hombres inmigrantes', 'hombre migrante' 'hombre migrante',
@@ -25,7 +35,41 @@ F_migrant_keywords = ['mujer inmigrante', 'mujeres inmigrantes', 'mujer migrante
 migrant_keywords = ['inmigrante', 'inmigrantes', 'migrantes', 'migrantes', 'migración', 'migraciones',
                     'solicitante de asilo', 'solicitantes de asilo', 'migratorio', 'migratoria', 'migratorios',
                     'migratorias', 'extranjero', 'extranjera', 'extranjeros', 'extranjeras', 'inmigración',
-                    'inmigraciones', 'indocumentados', 'indocumentadas', 'indocumentado', 'indocumentada']
+                    'inmigraciones', 'indocumentados', 'indocumentadas', 'indocumentado', 'indocumentada', 'emigrar']
+# keyword lists in progress
+quantity_keywords = ['número','reducir', 'número','cientos','centenar','medio','millones','doce']
+childrenfamily_keywords = ['embarazada','embarazadas','niños','niñas','niña' ,'niño' ,'esposo','esposa' ,'cuidado', 'marido','ancianos','anciana' ,
+'ancianas','anciano' ]
+
+migrantCsvDirectory = 'C:/Users/khahn/PycharmProjects/HypothesisA/articleDB/migrants/migrants/' # get articles from migrant folder
+
+
+def get_articles(directory):
+    csvfiles = glob.glob(os.path.join(directory, '*.csv'))  # get the files in that folder
+    csvcontent = []  # list that will contain the csv files
+    csvColumns = []
+    columnsList = []
+    urlsList = []
+    for elt in csvfiles:
+        f = open(elt, 'r')
+        csv_f = csv.reader(f)
+        csvcontent.append(csv_f)
+    # clean the articles and put them into one list
+    for csvfile in csvcontent:  # reads the columns for each of the csv files
+        for column in csvfile:
+            csvColumns.append(column)
+    for elt in csvColumns:  # makes each column a string in one list
+        for i in elt:
+            columnsList.append(i)
+    while '' in columnsList:  # remove empty strings
+        columnsList.remove('')
+    totalElements = len(columnsList)
+    for elt in columnsList:  # remove content that is not a url and remove repeated urls
+        if elt.startswith('http') and elt not in urlsList:
+            urlsList.append(elt)
+    totalUnrepeatedElements = len(urlsList)
+    print('There were', totalElements, 'elements orginally, but only', totalUnrepeatedElements, 'unrepeated urls total.')
+    return urlsList
 
 
 # Get website headline
@@ -146,3 +190,34 @@ def count_freq_keywords(sentence_list, keyword_list, name_of_list):
     counter_keywords = Counter(matched_keywords)
     freq_keywords = counter_keywords.most_common()
     return freq_keywords
+
+
+#  gets ngrams
+# input: tokenized list of data, type of ngram
+# output: readable ngrams
+def extract_ngrams(data, num):
+    n_grams = ngrams(data, num)
+    return [' '.join(grams) for grams in n_grams]
+
+
+
+# gets ngrams for a text
+# input: list of lists of sentences, keywords to search, type of ngram
+# output: 5 most common ngrams, list of all the ngrams
+def load_ngrams(text, keywords, number):
+    manyNgrams = []
+    # to change back, switched cleanedText for matched_sentences
+    for elt in text:
+        getNgrams = extract_ngrams(elt, number)
+        manyNgrams.append(getNgrams)
+    print('There are', len(manyNgrams), 'elements in manyNgrams')
+    keywordNgrams = []
+    for i in manyNgrams:
+        for gram in i:
+            for keyword in keywords:
+                if (keyword in gram) and (gram not in keywordNgrams):
+                    keywordNgrams.append(gram)
+    print('There are', len(keywordNgrams), 'elements in keywordNgrams')
+    ngramFreq = collections.Counter(keywordNgrams)
+    print(ngramFreq.most_common(5))
+    return keywordNgrams
