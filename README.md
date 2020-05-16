@@ -27,6 +27,13 @@ csv, nltk, collections, glob, os, seaborn, matplotlib
 
 2) A [barplot](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/MostCommonKeywords.png) of the most frequent gendered keywords and how often they appeared in the articles
 
+## Mock Results for "Spacy"
+*PACKAGES USED:*
+pandas, spacy
+
+This code is experimenting with Spacy. Given an article in text, it finds the noun that corresponds with the article. 
+
+
 ## Mock Results for "Keyword Searching"
 
 *PACKAGES USED:* 
