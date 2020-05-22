@@ -27,6 +27,12 @@ csv, nltk, collections, glob, os, seaborn, matplotlib
 
 2) A [barplot](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/MostCommonKeywords.png) of the most frequent gendered keywords and how often they appeared in the articles
 
+## Mock Results for "Wordcloud"
+*PACKAGES USED:*
+matplotlib, wordcloud
+
+This code makes wordclouds based on the words that frequently appear in sentences with male-gendered words and female-gendered words given a corpus of articles about migration in Mexico.
+
 ## Mock Results for "Spacy"
 *PACKAGES USED:*
 pandas, spacy
