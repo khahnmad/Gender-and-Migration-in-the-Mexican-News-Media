@@ -32,6 +32,8 @@ csv, nltk, collections, glob, os, seaborn, matplotlib
 matplotlib, wordcloud
 
 This code makes wordclouds based on the words that frequently appear in sentences with male-gendered words and female-gendered words given a corpus of articles about migration in Mexico.
+- [Male-gendered wordcloud](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/first_wordcloud.png)
+- [Female-gendered wordcloud](https://github.com/khahnmad/Gender-and-Migration-in-the-Mexican-News-Media/blob/master/second_wordcloud.png)
 
 ## Mock Results for "Spacy"
 *PACKAGES USED:*
