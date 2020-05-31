@@ -9,7 +9,7 @@ Created on Fri May 15 23:33:05 2020
 import spacy
 import pandas as pd
 from nltk.tokenize import word_tokenize
-import All_Functions2 as af
+import All_Functions as af
 from collections import Counter
 import seaborn as sns
 import matplotlib.pyplot as plt
