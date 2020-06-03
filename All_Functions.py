@@ -35,13 +35,20 @@ F_migrant_keywords = ['mujer inmigrante', 'mujeres inmigrantes', 'mujer migrante
 migrant_keywords = ['inmigrante', 'inmigrantes', 'migrantes', 'migrantes', 'migración', 'migraciones',
                     'solicitante de asilo', 'solicitantes de asilo', 'migratorio', 'migratoria', 'migratorios',
                     'migratorias', 'extranjero', 'extranjera', 'extranjeros', 'extranjeras', 'inmigración',
-                    'inmigraciones', 'indocumentados', 'indocumentadas', 'indocumentado', 'indocumentada', 'emigrar']
+                    'inmigraciones', 'indocumentados', 'indocumentadas', 'indocumentado', 'indocumentada']
+variablesDict = {'Male Keywords': male_keywords, 'Female Keywords': female_keywords, 'Other gender words':
+                    other_gender_keywords, 'Male Migrant Words': M_migrant_keywords, 'Female Migrant Words': F_migrant_keywords,
+                 'Migrant Keywords': migrant_keywords, 'Male Pronouns': ['él', 'ellos','nosotros','vosotros'],
+                 'Female Pronouns': ['ella','ellas','nosotras','vosotras']}
+
 # keyword lists in progress
 quantity_keywords = ['número','reducir', 'número','cientos','centenar','medio','millones','doce']
 childrenfamily_keywords = ['embarazada','embarazadas','niños','niñas','niña' ,'niño' ,'esposo','esposa' ,'cuidado', 'marido','ancianos','anciana' ,
-'ancianas','anciano' ]
+'ancianas','anciano', 'jóvenes' ]
+valueDict = {'Quantity Keywords': quantity_keywords, 'children and family': childrenfamily_keywords}
 
 migrantCsvDirectory = 'C:/Users/khahn/PycharmProjects/HypothesisA/articleDB/migrants/migrants/' # get articles from migrant folder
+femalemigrantCsvDirectory =  'C:/Users/khahn/PycharmProjects/HypothesisA/articleDB/migrants/femaleMigrants/'
 
 
 def get_articles(directory):
@@ -198,7 +205,6 @@ def count_freq_keywords(sentence_list, keyword_list, name_of_list):
 def extract_ngrams(data, num):
     n_grams = ngrams(data, num)
     return [' '.join(grams) for grams in n_grams]
-
 
 
 # gets ngrams for a text
