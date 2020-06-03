@@ -21,8 +21,8 @@ for elt in listsOfSentences: # make it just one list of all the strings
         one_list_sentences.append(i)
 print('There are ', len(one_list_sentences), 'sentences in the list of sentences')
 
-male_related_words = af.search_related_words(one_list_sentences, 'Male Keywords')
-female_related_words = af.search_related_words(one_list_sentences, 'Female Keywords')
+male_related_words = af.search_related_words(one_list_sentences, af.variablesDict['Male Keywords'])
+female_related_words = af.search_related_words(one_list_sentences, af.variablesDict['Female Keywords'])
 
 m_text = ' '.join(male_related_words)
 wordcloud = WordCloud().generate(m_text)
